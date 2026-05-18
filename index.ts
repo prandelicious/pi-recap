@@ -88,8 +88,8 @@ function getRecentMessages(ctx: ExtensionContext): AgentMessage[] {
 	return recentEntries.map(entryToMessage).filter((m): m is AgentMessage => m !== undefined);
 }
 
-/** Fallback recap when LLM unavailable. */
-function simpleRecap(messages: AgentMessage[]): string {
+/** Fallback recap when LLM unavailable. Returns null if nothing useful to say. */
+function simpleRecap(messages: AgentMessage[]): string | null {
 	let userN = 0;
 	let assN = 0;
 	let toolN = 0;
@@ -116,7 +116,7 @@ function simpleRecap(messages: AgentMessage[]): string {
 
 	return parts.length > 0
 		? `Recap: ${parts.join(", ")}.`
-		: "Recap: No recent activity.";
+		: null;
 }
 
 /** Generate concise recap using LLM (falls back to basic stats).
@@ -134,7 +134,8 @@ async function generateRecap(ctx: ExtensionContext): Promise<string | null> {
 	const text = serializeConversation(convertToLlm(messages));
 
 	// If serialization produced nothing meaningful, bail.
-	if (!text || text.trim().length < 40) return null;
+	// Must contain at least one user message marker to be worth recapping.
+	if (!text || !text.includes("[User]:")) return null;
 
 	const model = ctx.model;
 	if (!model) return simpleRecap(messages);
@@ -178,6 +179,12 @@ ${text}
 			.map((c: { text: string }) => c.text)
 			.join("\n")
 			.trim();
+
+		// If LLM says something about no conversation/context, skip —
+		// the serialized content probably wasn't useful.
+		if (recap && /no (conversation|context|content) (was )?(provided|to review)/i.test(recap)) {
+			return null;
+		}
 
 		return recap || simpleRecap(messages);
 	} catch {
