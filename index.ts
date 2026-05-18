@@ -119,12 +119,23 @@ function simpleRecap(messages: AgentMessage[]): string {
 		: "Recap: No recent activity.";
 }
 
-/** Generate concise recap using LLM (falls back to basic stats). */
+/** Generate concise recap using LLM (falls back to basic stats).
+ *  Returns null when there's nothing meaningful to recap. */
 async function generateRecap(ctx: ExtensionContext): Promise<string | null> {
 	const messages = getRecentMessages(ctx);
 	if (messages.length === 0) return null;
 
+	// Require at least one user message and one assistant response
+	// — no point recapping tool-only noise.
+	const hasUser = messages.some((m) => m.role === "user");
+	const hasAssistant = messages.some((m) => m.role === "assistant");
+	if (!hasUser || !hasAssistant) return null;
+
 	const text = serializeConversation(convertToLlm(messages));
+
+	// If serialization produced nothing meaningful, bail.
+	if (!text || text.trim().length < 40) return null;
+
 	const model = ctx.model;
 	if (!model) return simpleRecap(messages);
 
