@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (2026-05-18)
+
+- Skip recap generation when conversation has no meaningful content
+  (requires at least one user + one assistant message and minimum
+  serialized text length before calling the LLM)
+
 ## 1.0.0 (2026-05-18)
 
 - Initial release
