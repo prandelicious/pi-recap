@@ -1,0 +1,23 @@
+{
+  "name": "pi-recap",
+  "version": "1.0.0",
+  "description": "Inline session recap for pi — concise summaries on resume, idle timeout, and /recap",
+  "keywords": ["pi-package"],
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prandelicious/pi-recap.git"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
+  },
+  "pi": {
+    "extensions": ["./index.ts"],
+    "video": "",
+    "image": ""
+  }
+}
