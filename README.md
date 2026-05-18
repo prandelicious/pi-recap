@@ -5,9 +5,9 @@ feature — concise summaries injected into the conversation so you always know
 where you left off.
 
 ```
-※ recap: Compared Exa vs Firecrawl scraping a Lamudi condo listing. Firecrawl
-  won — it pulled unit prices, floor areas, and 27 images that Exa missed.
-  Next up: testing Exa's `extract` parameter on static HTML.
+※ recap: Refactored the auth middleware to use JWT-only tokens and removed
+  the legacy session fallback. Updated 3 route handlers. Next: adding refresh
+  token rotation before the security audit.
 ```
 
 ## Features
