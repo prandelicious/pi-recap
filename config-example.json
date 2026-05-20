@@ -1,0 +1,6 @@
+{
+	"$schema": "./config-schema.json",
+	"comment": "Copy this file to ~/.pi/agent/pi-recap.json and edit.",
+	"idleMinutes": 5,
+	"enabled": true
+}

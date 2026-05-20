@@ -10,6 +10,16 @@
     "url": "git+https://github.com/prandelicious/pi-recap.git"
   },
   "type": "module",
+  "files": ["index.ts", "README.md", "LICENSE", "CHANGELOG.md"],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
   "peerDependencies": {
     "@earendil-works/pi-ai": "*",
     "@earendil-works/pi-coding-agent": "*",

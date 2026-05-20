@@ -1,0 +1,21 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "pi-recap Config",
+	"description": "Global configuration for pi-recap extension",
+	"type": "object",
+	"properties": {
+		"idleMinutes": {
+			"description": "Idle timeout in minutes before auto-recap fires (1–120)",
+			"type": "integer",
+			"minimum": 1,
+			"maximum": 120,
+			"default": 5
+		},
+		"enabled": {
+			"description": "Whether auto-recap is enabled by default",
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"required": ["idleMinutes", "enabled"]
+}
